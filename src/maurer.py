@@ -27,7 +27,9 @@ def random_prime(bits):
     q = random_prime(math.floor(r * bits) + 1)
     interval = (1 << (bits - 1)) // (2 * q)
 
-    while True:
+    fail_count = interval * 2
+    attempts = 0
+    while attempts < fail_count:
         rand_scale = src.random_util.rand_in_range(interval + 1, 2 * interval + 1)
         n = 2 * rand_scale * q + 1
 
@@ -37,7 +39,12 @@ def random_prime(bits):
         if b == 1:
             test = pow(a, 2 * rand_scale, n) - 1
             if math.gcd(test, q) == 1:
-                return n    
+                return n
+        
+        attempts += 1
+    
+    #try again if it fails
+    return random_prime(bits)
         
 def relative_size(bits):
     s = secrets.randbelow((1 << 100) + 1) / (1 << 100)
