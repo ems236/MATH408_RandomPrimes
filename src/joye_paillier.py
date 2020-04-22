@@ -120,7 +120,7 @@ class PaillierPrimeGenerator():
 
     def rand_prime(self):
         k = rand_unit(self.pi, self.pi_carmichael)
-        b = src.random_util.rand_in_range(self.b_min, self.b_max)
+        b = src.random_util.rand_in_range(self.b_min, self.b_max + 1)
         t = self.pi * b
         l = self.pi * self.v
         q = self.q_value(k, t, l)

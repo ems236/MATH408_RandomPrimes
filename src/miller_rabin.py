@@ -1,6 +1,13 @@
 from src.random_util import rand_in_range
 
 NUMBER_TESTS = 6
+def rand_prime(q_min, q_max):
+    p = rand_in_range(q_min, q_max)
+    while not miller_rabin_is_prime(p):
+        p = rand_in_range(q_min, q_max)
+    
+    return p
+
 def miller_rabin_is_prime(n, tests = NUMBER_TESTS):
     (exponet, v) = odd_log2_decomp(n)
     for i in range(0, tests):
