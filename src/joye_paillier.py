@@ -84,8 +84,9 @@ class PaillierPrimeGenerator():
         return (True, b, v)
 
     def set_params(self):
-        q_min = math.ceil(2 ** (self.bits - 0.5))
-        q_max = 1 << self.bits
+        #q_min = math.ceil(2 ** (self.bits - 0.5))
+        q_min = 1 << self.bits
+        q_max = 1 << (self.bits + 1)
 
         upper_bound = (q_max - q_min) + 1
         #0 <= (b_m+1)PI < bound

@@ -1,5 +1,6 @@
 from src.random_util import rand_in_range
 
+PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127]
 NUMBER_TESTS = 6
 def rand_prime(bits):
     q_min = 1 << bits
@@ -11,6 +12,10 @@ def rand_prime(bits):
     return p
 
 def miller_rabin_is_prime(n, tests = NUMBER_TESTS):
+    for p in PRIMES:
+        if n % p == 0:
+            return n == p
+
     (exponet, v) = odd_log2_decomp(n)
     for i in range(0, tests):
         #should be fine not to check this
