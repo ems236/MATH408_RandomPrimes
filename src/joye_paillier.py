@@ -119,17 +119,26 @@ class PaillierPrimeGenerator():
                 i -= 1
 
     def rand_prime(self):
-        k = rand_unit(self.pi, self.pi_carmichael)
-        b = src.random_util.rand_in_range(self.b_min, self.b_max + 1)
-        t = self.pi * b
-        l = self.pi * self.v
-        q = self.q_value(k, t, l)
-
-        while not src.miller_rabin.miller_rabin_is_prime(q):
-            k = (k << 1) % self.pi
+        while True:
+            k = rand_unit(self.pi, self.pi_carmichael)
+            b = src.random_util.rand_in_range(self.b_min, self.b_max + 1)
+            t = self.pi * b
+            l = self.pi * self.v
             q = self.q_value(k, t, l)
 
-        return q
+            fail_max = 10000
+            fails = 0
+            while not src.miller_rabin.miller_rabin_is_prime(q) and fails < fail_max:
+                k = (k << 1) % self.pi
+                q = self.q_value(k, t, l)
+
+                fails += 1
+
+            if fails > fail_max:
+                print("failed paillier " + str(self.bits))
+                continue
+            
+            return q
 
     def q_value(self, k, t, l):
         q = k + t + l
