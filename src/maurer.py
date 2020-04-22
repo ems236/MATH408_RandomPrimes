@@ -6,18 +6,17 @@ M_BITS = 20
 PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61]
 
 def trial_prime(bits):
-    return PRIMES[src.random_util.rand_in_range(0, len(PRIMES))]
-    """while True:
-        p = src.random_util.rand_in_range(1 << (bits - 1), 1 << bits)
+    while True:
+        p = src.random_util.rand_in_range(1 << bits, 1 << (bits + 1))
         sqrt = p ** 0.5
         for i in range(0, len(PRIMES)):
             if PRIMES[i] > sqrt:
                 return p
             elif p == 0 % PRIMES[i]:
-                break"""
+                break
 
 def random_prime(bits):
-    if bits <= 6:
+    if bits < 6:
         return trial_prime(bits) 
     
     r = 0.5

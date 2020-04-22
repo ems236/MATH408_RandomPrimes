@@ -1,7 +1,9 @@
 from src.random_util import rand_in_range
 
 NUMBER_TESTS = 6
-def rand_prime(q_min, q_max):
+def rand_prime(bits):
+    q_min = 1 << bits
+    q_max = 1 << (bits + 1)
     p = rand_in_range(q_min, q_max)
     while not miller_rabin_is_prime(p):
         p = rand_in_range(q_min, q_max)
