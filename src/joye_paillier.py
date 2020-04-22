@@ -13,7 +13,7 @@ def rand_unit(pi, lamba_pi):
         k_carm = pow(k, lamba_pi, pi)
         if k_carm == 1:
             return k
-        k = k + secrets.randbelow(pi) * (1 - k_carm)
+        k = (k + secrets.randbelow(pi) * (1 - k_carm)) % pi
 
 def carmichael(prime_factors):
     #this is not a good way
@@ -113,7 +113,7 @@ class PaillierPrimeGenerator():
                 self.b_max = b
                 self.v = v
                 self.a = A_VAL
-                self.pi_carmichael = carmichael(primes[:i])
+                self.pi_carmichael = carmichael(primes[:(i + 1)])
                 break
             else:
                 i -= 1
@@ -126,14 +126,14 @@ class PaillierPrimeGenerator():
         q = self.q_value(k, t, l)
 
         while not src.miller_rabin.miller_rabin_is_prime(q):
-            k = (2 * k) % self.pi
+            k = (k << 1) % self.pi
             q = self.q_value(k, t, l)
 
         return q
 
     def q_value(self, k, t, l):
         q = k + t + l
-        if 1 & q == 1:
+        if 1 & q == 0:
             q = self.pi - k + t + l
         return q
     
